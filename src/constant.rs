@@ -1392,7 +1392,7 @@ impl Constant {
                 Constant::GlobalReference {
                     name: match ctx.global_names.get(&constant) {
                         Some(Name::Name(n)) => (**n).clone(),
-                        Some(Name::Number(n)) => panic!("Expected global variable or function to have a real name, not a number {}", n),
+                        Some(Name::Number(n)) => format!("globalref_{}", n),
                         None => {
                             let names: Vec<_> = ctx.global_names.values().collect();
                             panic!("Global not found in ctx.global_names; have names {:?}", names)
@@ -1515,7 +1515,7 @@ impl GetElementPtr {
             address: Constant::from_llvm_ref(unsafe { LLVMGetOperand(expr, 0) }, ctx),
             indices: {
                 let num_indices = unsafe { LLVMGetNumOperands(expr) as u32 } - 1; // LLVMGetNumIndices(), which we use for instruction::GetElementPtr, appears empirically to not work for constant::GetElementPtr
-                (1 ..= num_indices)
+                (1..=num_indices)
                     .map(|i| Constant::from_llvm_ref(unsafe { LLVMGetOperand(expr, i) }, ctx))
                     .collect()
             },
