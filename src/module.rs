@@ -653,7 +653,7 @@ impl GlobalVariable {
             name: {
                 match Name::name_or_num(unsafe { get_value_name(global) }, ctr) {
                     Name::Name(s) => *s,
-                    Name::Number(n) => format!("globalvar_{}", n),
+                    Name::Number(n) => format!("global_{}", n),
                 }
             },
             linkage: Linkage::from_llvm(unsafe { LLVMGetLinkage(global) }),
@@ -707,7 +707,7 @@ impl GlobalAlias {
         Self {
             name: match Name::name_or_num(unsafe { get_value_name(alias) }, ctr) {
                 Name::Name(s) => *s,
-                Name::Number(n) => format!("globalalias_{}", n),
+                Name::Number(n) => format!("global_{}", n),
             },
             aliasee: Constant::from_llvm_ref(unsafe { LLVMAliasGetAliasee(alias) }, ctx),
             linkage: Linkage::from_llvm(unsafe { LLVMGetLinkage(alias) }),

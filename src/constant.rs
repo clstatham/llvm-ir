@@ -1392,7 +1392,7 @@ impl Constant {
                 Constant::GlobalReference {
                     name: match ctx.global_names.get(&constant) {
                         Some(Name::Name(n)) => (**n).clone(),
-                        Some(Name::Number(n)) => format!("globalref_{}", n),
+                        Some(Name::Number(n)) => format!("global_{}", n),
                         None => {
                             let names: Vec<_> = ctx.global_names.values().collect();
                             panic!("Global not found in ctx.global_names; have names {:?}", names)
